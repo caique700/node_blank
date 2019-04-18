@@ -7,7 +7,7 @@ import os from 'os';
 import cookieParser from 'cookie-parser';
 import swaggerify from './swagger';
 import l from './logger';
-
+import db from '../config/db';
 const app = express();
 
 export default class ExpressServer {
@@ -18,6 +18,7 @@ export default class ExpressServer {
     app.use(bodyParser.urlencoded({ extended: true, limit: process.env.REQUEST_LIMIT || '100kb' }));
     app.use(cookieParser(process.env.SESSION_SECRET));
     app.use(express.static(`${root}/public`));
+    db.conn();
   }
 
   router(routes: (app: Application) => void): ExpressServer {
